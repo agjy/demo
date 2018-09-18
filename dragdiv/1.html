@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .left {
+            width: 30%;
+            height: 700px;
+            position: relative;
+            background-color: #999;
+        }
+        .right {
+            width: 70%;
+            height: 700px;
+            position: absolute;
+            left: 30%;
+            top: 0;
+            background-color: #073;
+            z-index: 9999;
+        }
+        .moveRight {
+            width: 5px;
+            height: 700px;
+            position: absolute;
+            left: 0;
+            background-color: #09f;
+            cursor: w-resize;
+        }
+    </style>
+</head>
+<body>
+    <div class="left">
+        left
+    </div>
+    <div class="right">
+        <div class="moveRight"></div>
+        right
+    </div>
+    <script src="./js/jquery-1.12.4.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.moveRight').on('mousedown', function() {
+                var isMove = true;
+                $(document).on('mousemove', function(e) {
+                    if(!isMove) return;
+                    moveX = e.pageX - $('.right').offset().left;
+                    $('.moveRight').css('left', moveX);
+                    var rightMoveLeft = $('.moveRight').offset().left;
+                    $('.right').css({
+                        'width': $(document).width() - rightMoveLeft,
+                        'left': rightMoveLeft
+                    });
+                    $('.left').css('width', rightMoveLeft);
+                });
+                $(document).on('mouseup', function() {
+                    isMove = false;
+                });
+
+            });
+        });
+    </script>
+</body>
+</html>
